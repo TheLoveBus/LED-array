@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Bus LED viewer</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; background-color: black; color: white}
+    </style>
+  </head>
+  <body>
+	<h1>LED viewer</h2>
+	<canvas id="led" width="580" height="930"></canvas>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/jquery.js"></script>
+<script>
+$(function () {
+
+	var curpainting = 0;
+	var width = 58;
+	var height = 93;
+	var mult = 8;
+	var pix = 5;
+
+	var c = document.getElementById("led");
+	var ctx = c.getContext('2d');
+
+
+	var socket = io();
+	socket.on('pixels', function(msgbuf) {
+		if (curpainting == 0) {
+			curpainting = 1;
+			var msg = new Uint8Array(msgbuf);
+			//console.log(msg);
+			if ((width * height * 3) != msg.byteLength) { 
+				console.log("invalid bytelength, need " + (width * height * 3) + ", got " + msg.byteLength); 
+			} else { 
+				var flip = 0;
+				var i = 0;
+				ctx.save();
+				ctx.clearRect(0, 0, (width * mult), (height * mult));
+				for (y = 0; y < height; y++) {  // >
+					for (x = 0; x < width; x++) { // >
+						ctx.fillStyle="rgb(" + msg[i] + ',' + msg[i+1] + ',' + msg[i+2] + ")";
+
+						if (y % 2 == 0 && y < 31) {
+							flip = 1;        
+          					} else if (y % 2 == 1 && y < 31) {
+							flip = 0;
+               					} else if (y % 2 == 1 && y < 62) {
+							flip = 1;
+               					} else if (y % 2 == 0 && y < 62) {
+							flip = 0;
+               					} else if (y % 2 == 1 && y > 61) {
+							flip = 0;
+               					} else if (y % 2 == 0 && y > 61) {
+							flip = 1;
+               					}
+
+						if (flip == 1) {
+							ctx.fillRect((width - x - 1) * mult, y * mult, pix, pix);
+						} else {
+							ctx.fillRect((x) * mult, y * mult, pix, pix);
+						}
+						i += 3;
+					}
+				}
+				ctx.restore();
+				curpainting = 0;
+//				setTimeout(function() { curpainting = 0; }, 25);
+			}
+		} else {
+			console.log("skipping frame, still painting");
+		}
+	});
+
+/*    $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+    }); */
+
+
+  });
+</script>
+
+  </body>
+</html>
