@@ -7,6 +7,6 @@ Project space to work on the LED-array for the Loooooove Bus!
   `npm install`
 1. Run the node viewer -  
   `node viewer.js`
-1. Run a visualizer -  
+1. In a separate terminal, run a visualizer -  
   `node plasma.js`
 1. Open a web browser and view the visualization! [http://localhost:3000](http://localhost:3000)
