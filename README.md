@@ -2,7 +2,8 @@
 
 Project space to work on the LED-array for the Loooooove Bus! 
 
-1. Install Node.js [Windows Guide](http://blog.teamtreehouse.com/install-node-js-npm-windows)
+1. Install Node.js 
+[Windows Guide](http://blog.teamtreehouse.com/install-node-js-npm-windows) [Linux Guide](https://nodejs.org/en/download/package-manager/)
 1. Create the dependencies -  
   `npm install`
 1. Run the node viewer -  
