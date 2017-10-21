@@ -12,4 +12,4 @@ Project space to work on the LED-array for the Loooooove Bus!
   `node viewer.js`
 1. In a separate terminal, run a visualizer -  
   `node plasma.js`
-1. Open a web browser and test the visualization! "(Note: Replace localhost with whatever IP your terminal or vm is open to)" [http://localhost:3000](http://localhost:3000)
+1. Open a web browser and test the visualization! "(Note: Replace localhost if needed with whatever IP your terminal or vm is on)" [http://localhost:3000](http://localhost:3000)
