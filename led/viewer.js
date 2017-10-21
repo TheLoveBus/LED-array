@@ -11,7 +11,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/jquery.js', function(req, res){
-	res.sendFile(__dirname + '/jquery.js');
+	res.sendFile(__dirname + '/node_modules/jquery/dist/jquery.js');
+});
+
+app.get('/socket.io.js', function(req, res){
+	res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
 });
 
 

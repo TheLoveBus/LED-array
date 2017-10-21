@@ -10,8 +10,10 @@
   <body>
 	<h1>LED viewer</h2>
 	<canvas id="led" width="580" height="930"></canvas>
-<script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io.js"></script>
 <script src="/jquery.js"></script>
+
+
 <script>
 $(function () {
 
@@ -23,7 +25,6 @@ $(function () {
 
 	var c = document.getElementById("led");
 	var ctx = c.getContext('2d');
-
 
 	var socket = io();
 	socket.on('pixels', function(msgbuf) {
