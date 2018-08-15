@@ -1,3 +1,5 @@
+var config = require('../config');
+
 /**
  * HTML5 Canvas Plasma (fillRect technique)
  * 
@@ -16,9 +18,6 @@ var g_canvas;
 var g_framestart;
 
 var wcdiff = 30;
-
-var PORT = 10420;
-var HOST = '255.255.255.255';
 
 var dgram = require('dgram');
 
@@ -260,9 +259,9 @@ function loop()
 	  client.bind();
 	  client.on("listening", function () {
 		  client.setBroadcast(true);
-    	 	  client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+    	 	  client.send(message, 0, message.length, config.port, config.host, function(err, bytes) {
    		 	  if (err) throw err;
- //         	 	   console.log('UDP message sent to ' + HOST + ':'+ PORT);
+ //         	 	   console.log('UDP message sent to ' + config.host + ':'+ config.port);
 			   curpackets++;
             		   client.close();
       	 	 });
@@ -277,8 +276,6 @@ function loop()
 
 //var Canvas = require('canvas');
 //   g_canvas = new Canvas(58,31);
-   WIDTH = 58; 
-   HEIGHT = 93; //31 per panel
 
    // create the Plasma object
    g_plasma = new Plasma();

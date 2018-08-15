@@ -1,3 +1,5 @@
+var config = require('../config');
+
 /*jslint onevar: true, undef: false, nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true, newcap: true, immed: true  */
 
 /**
@@ -86,7 +88,7 @@
       schedule : false,
 
       schemes : [
-      { columns : 58, rows : 93, cellSize : 1 },
+      { columns : config.width, rows : config.height, cellSize : 1 },
       {
         columns : 180,
         rows : 86,
@@ -1025,8 +1027,6 @@
    */
  
 var packetcount = 0;
-var PORT = 10420;
-var HOST = '255.255.255.255';
 
 var dgram = require('dgram');
 
@@ -1068,9 +1068,14 @@ var refreshrate = 10;
     client.bind();
     client.on("listening", function () {
       client.setBroadcast(true);
-          client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-          	if (err) throw err;
-//                console.log('UDP message sent to ' + HOST + ':'+ PORT);
+          client.send(message, 0, message.length, config.port, config.host, function(err, bytes) {
+          	if (err) {
+			console.log( "erreur!" );
+			console.log( message.length );
+			console.log( client.getSendBufferSize() );
+			throw err;
+		}
+//                console.log('UDP message sent to ' + config.host + ':'+ config.port);
 		curpackets++;
                 client.close();
            });
