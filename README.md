@@ -16,3 +16,11 @@ Project space to work on the LED-array for the Loooooove Bus!
 1. Open a web browser and test the visualization! [http://localhost:3000](http://localhost:3000)
  
 "(Note: Replace localhost with whatever IP your terminal or vm is open to)"
+
+## MacOS
+
+To get this to run on MacOS, execute the following commands:
+
+`sudo sysctl net.inet.udp.maxdgram=32768`
+`sudo sysctl net.inet.raw.maxdgram=32768`
+

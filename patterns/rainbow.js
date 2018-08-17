@@ -1,7 +1,4 @@
-var height = 93;
-var width = 58;
-var PORT = 10420;
-var HOST = '255.255.255.255';
+var config = require('../config');
 
 var dgram = require('dgram');
 var refreshrate = 10;
@@ -10,9 +7,11 @@ var pixmap = [];
 var scale = 0.0015;
 var offset = 0;
 
-for (x = 0; x < width; x++) {
+var _maxBuffer = 16182;
+
+for (x = 0; x < config.width; x++) {
 	pixmap[x] = [];
-	for (y = 0; y < height; y++) {
+	for (y = 0; y < config.height; y++) {
 		pixmap[x][y] = [0,0,0];
 	}
 }
@@ -28,9 +27,9 @@ function renderFrame() {
 	}
 	if (h < 0.0002) { offset = 0; }
 
-	for (y = 0; y < height; y++) {
+	for (y = 0; y < config.height; y++) {
 
-		for (x = 0; x < width; x++) {
+		for (x = 0; x < config.width; x++) {
 			if (ii % 10 == 0) {
 				h += scale;  if (h > 1) { h = 0; }
 			}
@@ -50,11 +49,11 @@ renderFrame();
 
 function sendFrame() {
 
-         var message = new Buffer(16182);
+         var message = new Buffer(_maxBuffer);
     	 var cou = 0;
 
-	 var h = height;
-	 var w = width;
+	 var h = config.height;
+	 var w = config.width;
 
          for (var y=0,x; y<h; y++)  // y < ph
          {
@@ -99,9 +98,9 @@ function sendFrame() {
 	  client.bind();
 	  client.on("listening", function () {
 		  client.setBroadcast(true);
-    	 	  client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+    	 	  client.send(message, 0, message.length, config.port, config.host, function(err, bytes) {
    		 	  if (err) throw err;
- //         	 	   console.log('UDP message sent to ' + HOST + ':'+ PORT);
+ //         	 	   console.log('UDP message sent to ' + config.host + ':'+ config.port);
 			   curpackets++;
             		   client.close();
 			   setTimeout(function() { renderFrame(); }, 50);
