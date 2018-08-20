@@ -9,13 +9,12 @@ import base64
 import platform
 import signal
 
-DETACHED_PROCESS = 0x8
+configdir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+with open(configdir+'/config.json') as f:
+    config = json.load(f)
 
-if platform.system() == "Windows":
-	PYTHON_PATH = "D:\Python27\Python.exe"
-else:
-	NODE_PATH = "/usr/local/opt/node@8/bin/node"
-	PYTHON_PATH = "/usr/local/bin/python"
+NODE_PATH = config["executables"]["node"]
+PYTHON_PATH = config["executables"]["python"]
 
 class BusController:
 	"""BusLights Controller class"""

@@ -2,5 +2,10 @@
 	"height" : 93,
 	"width" : 58,
 	"host" : "127.0.0.1",
-	"port" : 10420
+	"port" : 10420,
+	"master_url" : "http://localhost:3010/script/",
+	"executables" : {
+		"node" : "/usr/bin/node",
+		"python" : "/usr/bin/python"
+	}
 }
