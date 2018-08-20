@@ -8,12 +8,14 @@ from buslights import *
 
 DEBUG = True
 
-MASTER_URL = 'http://localhost:3010/script/'
+configdir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+with open(configdir+'/config.json') as f:
+    config = json.load(f)
 
-if platform.system() == "Windows":
-	PYTHON_PATH = "D:\Python27\Python.exe"
-else:
-	PYTHON_PATH = "/usr/bin/python"
+NODE_PATH = config["executables"]["node"]
+PYTHON_PATH = config["executables"]["python"]
+
+MASTER_URL = config["master_url"]
 
 def Debug( message ):
 	if Debug: print message
