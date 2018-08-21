@@ -7,5 +7,6 @@
 	"executables" : {
 		"node" : "/usr/bin/node",
 		"python" : "/usr/bin/python"
-	}
+	},
+	"default_script" : "rainbow.js"
 }

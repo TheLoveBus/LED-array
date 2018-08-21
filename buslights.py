@@ -27,6 +27,7 @@ class BusController:
 		self._running = True
 		self._subprocess = None
 		self._script_name = None
+		self._fallback_script_name = None
 
 	def api_call(self, remote_method, data = {}):
 		request_url = self._master_url + remote_method
@@ -63,7 +64,6 @@ class BusController:
 			return
 		
 		Debug("Signalling STOP")
-		###self._subprocess.send_signal(signal.SIGTERM)
 		os.kill(self._subprocess.pid,signal.SIGKILL)
 
 		Debug("Waiting for subprocess to stop...")
@@ -109,6 +109,7 @@ class BusController:
 				Debug("Player is set down, sleeping for 60 seconds")
 				sleep = 60
 				self.updateServerPatterns()
+				self.runScript( config["default_script"] )
 				
 			elif self._script_name != script_name:
 				# Send stop
