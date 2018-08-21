@@ -23,6 +23,7 @@ for i in range(0,width):
 	canvas.append([0]*height)
 
 sock = get_sock(HOST, PORT)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 random.seed()
 
@@ -31,8 +32,8 @@ bpm = 174
 interval = float( 250 / bpm )
 ###interval = ( ( interval / 1000 ) * 4)
 ###interval = 0.5
-interval = 0.250
-###interval = 0.125
+###interval = 0.250
+interval = 0.125
 ###interval = 0.1
 ###interval = 0.062
 ###interval = float( 0.125 / 2 )

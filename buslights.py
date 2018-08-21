@@ -80,7 +80,7 @@ class BusController:
 		self.runScript( 'blackscreen.py' )
 
 	def updateServerPatterns(self):
-		script_files = [f for f in os.listdir("scripts") if os.path.isfile(os.path.join("scripts", f)) and f[-3:] != "pyc" and f != "lovebus.py"]
+		script_files = [f for f in os.listdir("scripts") if os.path.isfile(os.path.join("scripts", f)) and f[-3:] != "pyc" and f != "lovebus.py" and f[-3:] != "jpg"]
 		self.api_call('update',script_files)
 		
 	def run(self):
@@ -108,6 +108,7 @@ class BusController:
 			if script_name == '':
 				Debug("Player is set down, sleeping for 60 seconds")
 				sleep = 60
+				self.updateServerPatterns()
 				
 			elif self._script_name != script_name:
 				# Send stop

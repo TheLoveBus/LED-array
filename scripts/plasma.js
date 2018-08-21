@@ -19,6 +19,9 @@ var g_framestart;
 
 var wcdiff = 30;
 
+var PORT = config.port;
+var HOST = config.host;
+
 var dgram = require('dgram');
 
 var refreshrate = 10;
@@ -213,7 +216,7 @@ function loop()
     //     ctx.globalAlpha = this.Alpha;
          var jitter = this.Jitter ? (-this.Jitter + (Math.random()*this.Jitter*2)) : 0;
 
-         var message = new Buffer(16182);
+         var message = new Buffer(21578);
     	 var cou = 0;
 
          for (var y=0,x; y<h; y++)  // y < ph
@@ -225,20 +228,45 @@ function loop()
                //ctx.fillStyle = palette[(~~colour(x, y) + paletteoffset) % 256];
                //ctx.fillRect(x * vpx + jitter, y * vpy + jitter, vpx, vpy);
 
+               var rowsPerPanel = 31
+
                // each second row is flipped!
-               if (y % 2 == 0 && y < 31) {
+               if (y % 2 == 0 && y < rowsPerPanel*1) {
                  pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
-               } else if (y % 2 == 1 && y < 31) { 
+               } else if (y % 2 == 1 && y < rowsPerPanel*1) { 
                  pixel = palette[(~~colour(x, y) + paletteoffset) % 256];            
-               } else if (y % 2 == 1 && y < 62) {
+               } else if (y % 2 == 1 && y < rowsPerPanel*2) {
                  pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
-               } else if (y % 2 == 0 && y < 62) { 
+               } else if (y % 2 == 0 && y < rowsPerPanel*2) { 
                  pixel = palette[(~~colour(x, y) + paletteoffset) % 256];            
-               } else if (y % 2 == 1 && y > 61) {
+               } else if (y % 2 == 1 && y < rowsPerPanel*3) {
                  pixel = palette[(~~colour(x, y) + paletteoffset) % 256];
-               } else if (y % 2 == 0 && y > 61) { 
+               } else if (y % 2 == 0 && y < rowsPerPanel*3) { 
+                 pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
+               } else if (y % 2 == 0 && y < rowsPerPanel*4) {
+                 pixel = palette[(~~colour(x, y) + paletteoffset) % 256];
+               } else if (y % 2 == 1 && y < rowsPerPanel*4) { 
                  pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
                }
+
+
+               // if (y % 2 == 0 && y < 31) {
+               //   pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
+               // } else if (y % 2 == 1 && y < 31) { 
+               //   pixel = palette[(~~colour(x, y) + paletteoffset) % 256];            
+               // } else if (y % 2 == 1 && y < 62) {
+               //   pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
+               // } else if (y % 2 == 0 && y < 62) { 
+               //   pixel = palette[(~~colour(x, y) + paletteoffset) % 256];            
+               // } else if (y % 2 == 1 && y < 93) {
+               //   pixel = palette[(~~colour(x, y) + paletteoffset) % 256];
+               // } else if (y % 2 == 0 && y < 93) { 
+               //   pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
+               // } else if (y % 2 == 1 && y > 92) {
+               //   pixel = palette[(~~colour(x, y) + paletteoffset) % 256];
+               // } else if (y % 2 == 0 && y > 92) { 
+               //   pixel = palette[(~~colour(w - x, y) + paletteoffset) % 256];
+               // }
 
                message.write(pixel, cou, "ascii");
                
@@ -259,9 +287,9 @@ function loop()
 	  client.bind();
 	  client.on("listening", function () {
 		  client.setBroadcast(true);
-    	 	  client.send(message, 0, message.length, config.port, config.host, function(err, bytes) {
+    	 	  client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
    		 	  if (err) throw err;
- //         	 	   console.log('UDP message sent to ' + config.host + ':'+ config.port);
+ //         	 	   console.log('UDP message sent to ' + HOST + ':'+ PORT);
 			   curpackets++;
             		   client.close();
       	 	 });
@@ -276,6 +304,8 @@ function loop()
 
 //var Canvas = require('canvas');
 //   g_canvas = new Canvas(58,31);
+   WIDTH = config.width; 
+   HEIGHT = config.height; //31 per panel
 
    // create the Plasma object
    g_plasma = new Plasma();
@@ -308,7 +338,7 @@ function getFPS() {
 
 }
 
-/*
+
 var spawn = require('child_process').spawn;
 var crazytimer;
 
@@ -335,7 +365,7 @@ function getWebcam() {
                 getWebcam();
         });
 }
-*/
+
 
 
 /*
@@ -351,4 +381,3 @@ window.requestAnimFrame = (function()
                window.setTimeout(callback, 1000 / 60);
                       };
 })();*/
-

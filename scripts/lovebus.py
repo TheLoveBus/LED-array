@@ -34,6 +34,8 @@ def writestrip(sock_handle,canvas):
 
 	sock_handle.sendto(data,(sock_host,sock_port))
 
+	time.sleep(1/30)
+
 def writestripWithBrightness(sock_handle,canvas,brightness):
 	data = ''
 	for i in range(0,len(canvas),1):
@@ -52,8 +54,12 @@ def writestripWithBrightness(sock_handle,canvas,brightness):
 
 	sock_handle.sendto(data,(sock_host,sock_port))
 
+	time.sleep(1/30)
+
 def push(sock_handle,data):
-		sock_handle.sendto(data,(sock_host,sock_port))
+	sock_handle.sendto(data,(sock_host,sock_port))
+
+	time.sleep(1/30)
 
 def close(sock_handle):
 	sock_handle.close()
